@@ -4,7 +4,7 @@
       <p></p>
     </div>
     <div class="col-12">
-      <input class="form-control" type="text" placeh  older="Default input" @keyup.enter="getMovie" v-model="name">
+      <input class="form-control" type="text" placeh older="Default input" @keyup.enter="getMovie" v-model="name">
     </div>
     <div class="rol">
       <p></p>
@@ -13,8 +13,7 @@
       <div class="card" v-for="(val, index) in datas" :key="index" v-if="val != null">
         <div class="card-header" :id="index">
           <h5 class="mb-0">
-            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" :data-target="'#demo' + index" aria-expanded="false"
-              :aria-controls="index">
+            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" :data-target="'#demo' + index" aria-expanded="false" :aria-controls="index">
               {{val.name}}
               <font-awesome-icon v-if="val.searchable == true" icon="spinner" spin/>
               <font-awesome-icon style="green" v-if="val.searchable == false" icon="check" />
@@ -63,60 +62,60 @@
 </template>
 
 <script>
-  export default {
-    name: 'HelloWorld',
-    data() {
-      return {
-        name: '',
-        select: '',
-        datas: []
-      }
+export default {
+  name: 'HelloWorld',
+  data () {
+    return {
+      name: '',
+      select: '',
+      datas: []
+    }
+  },
+  methods: {
+    async getMovie () {
+      let url = '/movie?name=' + this.name
+      let self = this
+      await this.$http
+        .get(url)
+        .then(function (response) {
+          // handle success
+          self.datas = response.data
+          console.log(response.data)
+          self.datas.forEach((val, i) => {
+            if (val != null) {
+              self.getMovieInfo(val)
+            }
+          })
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error)
+        })
+        .then(function () {
+          // always executed
+        })
     },
-    methods: {
-      async getMovie() {
-        let url = '/movie?name=' + this.name
-        let self = this
-        await this.$http
-          .get(url)
-          .then(function (response) {
-            // handle success
-            self.datas = response.data
-            console.log(response.data)
-            self.datas.forEach((val, i) => {
-              if (val != null) {
-                self.getMovieInfo(val)
-              }
-            })
-          })
-          .catch(function (error) {
-            // handle error
-            console.log(error)
-          })
-          .then(function () {
-            // always executed
-          })
-      },
-      async getMovieInfo(val) {
-        let url = '/movieInfo?url=' + val.url
-        await this.$http
-          .get(url)
-          .then(function (response) {
-            // handle success
-            val.info = response.data
-            val.searchable = false
-          })
-          .catch(function (error) {
-            // handle error
-            console.log(error)
-          })
-          .then(function () {
-            // always executed
-          })
-      },
-      copyText() {
-        var copyText = document.getElementById("myInput");
-      }
+    async getMovieInfo (val) {
+      let url = '/movieInfo?url=' + val.url
+      await this.$http
+        .get(url)
+        .then(function (response) {
+          // handle success
+          val.info = response.data
+          val.searchable = false
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error)
+        })
+        .then(function () {
+          // always executed
+        })
+    },
+    copyText () {
+      // var copyText = document.getElementById('myInput')
     }
   }
+}
 
 </script>
