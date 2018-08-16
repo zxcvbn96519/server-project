@@ -15,8 +15,8 @@
           <h5 class="mb-0">
             <button class="btn btn-link collapsed" type="button" data-toggle="collapse" :data-target="'#demo' + index" aria-expanded="false" :aria-controls="index">
               {{val.name}}
-              <font-awesome-icon class="float-right" v-if="val.searchable == true" icon="spinner" spin/>
-              <font-awesome-icon class="float-right" style="color:green" v-if="val.searchable == false" icon="check" />
+              <font-awesome-icon v-if="val.searchable == true" icon="spinner" spin/>
+              <font-awesome-icon style="color:green" v-if="val.searchable == false" icon="check" />
             </button>
             <clipboard :beCopyData="val.txt"></clipboard>
           </h5>
@@ -24,7 +24,6 @@
         <div :id="'demo'+index" class="collapse" :aria-labelledby="index" data-parent="#accordione">
           <div class="card-body">
             <div v-if="val.searchable == false" v-text="val.txt">
-
             </div>
           </div>
         </div>
@@ -56,7 +55,13 @@ export default {
         .then(function (response) {
           // handle success
           self.datas = response.data
-          // console.log(response.data)
+          if (response.data.length === 0) {
+            this.$toasted.show('沒有資料', {
+              theme: 'outline',
+              position: 'top-center',
+              duration: 2500
+            })
+          }
           self.datas.forEach((val, i) => {
             if (val != null) {
               self.getMovieInfo(val)

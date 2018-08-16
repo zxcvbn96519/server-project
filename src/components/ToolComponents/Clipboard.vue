@@ -1,6 +1,6 @@
 <template>
   <button type="button" class="btn btn-secondary btn-sm float-right" v-clipboard:copy="beCopyData" v-clipboard:success="onCopy" v-clipboard:error="onError">
-    <font-awesome-icon icon="clipboard" />
+    複製 <font-awesome-icon icon="clipboard" />
   </button>
 </template>
 
@@ -21,7 +21,11 @@ export default {
       })
     },
     onError (e) {
-      alert('Failed to copy texts')
+      this.$toasted.show('複製失敗', {
+        theme: 'outline',
+        position: 'top-center',
+        duration: 2000
+      })
     }
 
   }
