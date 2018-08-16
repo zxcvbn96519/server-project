@@ -1,8 +1,7 @@
 <template>
-    <div class="container">
-        <input type="text" v-model="message">
-        <button type="button" v-clipboard:copy="message" v-clipboard:success="onCopy" v-clipboard:error="onError">Copy!</button>
-    </div>
+  <button type="button" class="btn btn-secondary btn-sm float-right" v-clipboard:copy="beCopyData" v-clipboard:success="onCopy" v-clipboard:error="onError">
+    <font-awesome-icon icon="clipboard" />
+  </button>
 </template>
 
 <script>
@@ -15,7 +14,11 @@ export default {
 
   methods: {
     onCopy (e) {
-      alert('You just copied: ' + e.text)
+      this.$toasted.show('複製成功', {
+        theme: 'outline',
+        position: 'top-center',
+        duration: 2000
+      })
     },
     onError (e) {
       alert('Failed to copy texts')

@@ -4,7 +4,7 @@
       <p></p>
     </div>
     <div class="col-12">
-      <input class="form-control" type="text" placeh older="Default input" @keyup.enter="getMovie" v-model="name">
+      <input class="form-control" type="text" placeh older="輸入電影名稱(Enter送出)" @keyup.enter="getMovie" v-model="name">
     </div>
     <div class="rol">
       <p></p>
@@ -15,44 +15,16 @@
           <h5 class="mb-0">
             <button class="btn btn-link collapsed" type="button" data-toggle="collapse" :data-target="'#demo' + index" aria-expanded="false" :aria-controls="index">
               {{val.name}}
-              <font-awesome-icon v-if="val.searchable == true" icon="spinner" spin/>
-              <font-awesome-icon style="green" v-if="val.searchable == false" icon="check" />
+              <font-awesome-icon class="float-right" v-if="val.searchable == true" icon="spinner" spin/>
+              <font-awesome-icon class="float-right" style="color:green" v-if="val.searchable == false" icon="check" />
             </button>
+            <clipboard :beCopyData="val.txt"></clipboard>
           </h5>
         </div>
         <div :id="'demo'+index" class="collapse" :aria-labelledby="index" data-parent="#accordione">
           <div class="card-body">
-            <div v-if="val.searchable == false">
-              <p>&lt;table&gt;
-                <br />&lt;tbody&gt;
-                <br />&lt;tr&gt;
-                <br />&lt;td style="height: 234px; width: 270.8px;" rowspan="5"&gt;{{val.info.src}}&lt;/td&gt;
-                <br />&lt;td&gt;
-                <br />&lt;h4&gt;{{val.info.title}}&lt;/h4&gt;
-                <br />&lt;/td&gt;
-                <br />&lt;/tr&gt;
-                <br />&lt;tr&gt;
-                <br />&lt;td&gt;片 長： {{val.info.info_1}}&lt;/td&gt;
-                <br />&lt;/tr&gt;
-                <br />&lt;tr&gt;
-                <br />&lt;td&gt;導 演： {{val.info.info_3}}&lt;/td&gt;
-                <br />&lt;/tr&gt;
-                <br />&lt;tr&gt;
-                <br />&lt;td&gt;演 員： {{val.info.info_4}}&lt;/td&gt;
-                <br />&lt;/tr&gt;
-                <br />&lt;tr&gt;
-                <br />&lt;td colspan="2"&gt;&lt;!--影片放這--&gt;這裡放影片&lt;!--到這--&gt;&lt;/td&gt;
-                <br />&lt;/tr&gt;
-                <br />&lt;tr&gt;
-                <br />&lt;td colspan="2"&gt;
-                <br />&lt;h4&gt;&nbsp;&lt;strong&gt;影片介紹&lt;/strong&gt;&lt;/h4&gt;
-                <br />&lt;/td&gt;
-                <br />&lt;/tr&gt;
-                <br />&lt;tr&gt;
-                <br />&lt;td colspan="2"&gt;&nbsp; {{val.info.content}}&lt;/td&gt;
-                <br />&lt;/tr&gt;
-                <br />&lt;/tbody&gt;
-                <br />&lt;/table&gt;</p>
+            <div v-if="val.searchable == false" v-text="val.txt">
+
             </div>
           </div>
         </div>
@@ -62,6 +34,7 @@
 </template>
 
 <script>
+import Clipboard from './ToolComponents/Clipboard.vue'
 export default {
   name: 'HelloWorld',
   data () {
@@ -70,6 +43,9 @@ export default {
       select: '',
       datas: []
     }
+  },
+  components: {
+    Clipboard
   },
   methods: {
     async getMovie () {
@@ -80,7 +56,7 @@ export default {
         .then(function (response) {
           // handle success
           self.datas = response.data
-          console.log(response.data)
+          // console.log(response.data)
           self.datas.forEach((val, i) => {
             if (val != null) {
               self.getMovieInfo(val)
@@ -100,20 +76,46 @@ export default {
       await this.$http
         .get(url)
         .then(function (response) {
-          // handle success
           val.info = response.data
+          this.setText(val)
           val.searchable = false
         })
         .catch(function (error) {
-          // handle error
           console.log(error)
         })
-        .then(function () {
-          // always executed
-        })
     },
-    copyText () {
-      // var copyText = document.getElementById('myInput')
+    setText (val) {
+      val.txt = `
+        <table>
+        <tbody>
+        <tr>
+        <td style="height: 234px; width: 270.8px;" rowspan="4"><img src="` + val.info.src + `" /></td>
+        <td>
+        <h4>` + val.info.title + `</h4>
+        </td>
+        </tr>
+        <tr>
+        <td>片   長：` + val.info.info_1 + `</td>
+        </tr>
+        <tr>
+        <td>導   演：` + val.info.info_3 + `</td>
+        </tr>
+        <tr>
+        <td>演   員：` + val.info.info_4 + `</td>
+        </tr>
+        <tr>
+        <td colspan="2"><!--影片放這-->這裡放影片<!--到這--></td>
+        </tr>
+        <tr>
+        <td colspan="2">
+        <h4><strong>影片介紹</strong></h4>
+        </td>
+        </tr>
+        <tr>
+        <td colspan="2">` + val.info.content + `</td>
+        </tr>
+        </tbody>
+        </table>`
     }
   }
 }

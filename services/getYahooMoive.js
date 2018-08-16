@@ -89,6 +89,6 @@ exports.secondSearch = async function (url) {
     }
   )
   datas['content'] = $('#maincontainer #content_l .l_box .gray_infobox_inner').text().trim().replace('\n          \n          詳全文', '').replace(/\n/g, '<br>')
-  console.log(datas)
+  datas['content'] !== '' ? console.log('Fetch ok') : console.log('Fetch fail')
   return datas
 }

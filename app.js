@@ -25,13 +25,13 @@ app.listen(8080, function () {
 app.get('/movie',async function(req,res){
   let url = "https://movies.yahoo.com.tw/moviesearch_result.html?keyword=" + req.query.name;
   let datas = await movieInfo.firstSearch(encodeURI(url));
-  console.log(url + " " + datas)
+  //console.log(url + " " + datas)
   res.send( datas)
   return
 })
 app.get('/movieInfo',async function(req,res){
   let datas = await movieInfo.secondSearch(encodeURI(req.query.url));
-  console.log(req.query.url)
+  //console.log(req.query.url)
   res.send( datas)
   return
 })
