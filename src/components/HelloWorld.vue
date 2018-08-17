@@ -48,7 +48,18 @@ export default {
   },
   methods: {
     async getMovie () {
-      let url = '/movie?name=' + this.name
+      let url
+      if (this.name.length > 50) {
+        this.datas = {
+          a: {
+            url: this.name
+          }
+        }
+        this.getMovieInfo(this.datas.a)
+        return
+      } else {
+        url = '/movie?name=' + this.name
+      }
       let self = this
       await this.$http
         .get(url)
@@ -83,9 +94,18 @@ export default {
         .then(function (response) {
           val.info = response.data
           this.setText(val)
+          val.name = val.info.title
+          if (this.name.length > 50) {
+            this.name = ''
+          }
           val.searchable = false
         })
         .catch(function (error) {
+          this.$toasted.show('沒有資料', {
+            theme: 'outline',
+            position: 'top-center',
+            duration: 2500
+          })
           console.log(error)
         })
     },
