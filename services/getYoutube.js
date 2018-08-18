@@ -51,13 +51,14 @@ exports.firstSearch = async function (url) {
     })
     let tmp = []
     for (var j in datas) {
-      if (datas[j].text === '' || datas[j].url === undefined || datas[j].text.length > 50 || j <= 28) {
+      if (datas[j].text === '' || datas[j].url === undefined || datas[j].text.length > 50 || datas[j].url.length > 13) {
         delete datas[j]
       } else {
         tmp.push(datas[j])
       }
     }
     datas = tmp
+    console.log(datas)
     return datas
   } catch (e) {
     console.log(e)

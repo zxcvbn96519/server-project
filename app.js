@@ -33,7 +33,7 @@ app.get('/movie',async function(req,res){
 app.get('/movieInfo',async function(req,res){
   let datas = await movieInfo.secondSearch(encodeURI(req.query.url));
   //console.log(req.query.url)
-  datas.youtube = await youtubeInfo.firstSearch(encodeURI('https://www.youtube.com/results?search_query='+datas.title_zh+'+預告&sp=CAMSBBABGAFCBAgBEgA%253D'))
+  datas.youtube = await youtubeInfo.firstSearch(encodeURI('https://www.youtube.com/results?search_query='+datas.title_zh+'+預告&sp=CAMSBBABGAFCBAgAEgA%253D'))
  // console.log(datas)
   res.send( datas)
   return
