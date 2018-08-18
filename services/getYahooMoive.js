@@ -72,8 +72,8 @@ exports.secondSearch = async function (url) {
     $('#maincontainer #content_l .movie_intro_info .movie_intro_info_r').each(
       (i, el) => {
         const go = cheerio.load($(el).html())
-        datas['title'] = go('h1').text() + ' ' + go('h3').text()
-        // datas['title_en'] = go("h3").text()
+        datas['title_zh'] = go('h1').text()
+        datas['title_en'] = go('h3').text()
         go('span').each((i, el) => [
           (datas['info_' + i] = $(el)
             .text()

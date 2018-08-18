@@ -94,7 +94,7 @@ export default {
         .then(function (response) {
           val.info = response.data
           this.setText(val)
-          val.name = val.info.title
+          val.name = val.info.title_zh + ' ' + val.info.title_en
           if (this.name.length > 50) {
             this.name = ''
           }
@@ -116,7 +116,7 @@ export default {
         <tr>
         <td style="height: 234px; width: 270.8px;" rowspan="4"><img src="` + val.info.src + `" /></td>
         <td>
-        <h4>` + val.info.title + `</h4>
+        <h4>` + val.info.title_zh + ' ' + val.info.title_en + `</h4>
         </td>
         </tr>
         <tr>

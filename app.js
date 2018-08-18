@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var movieInfo = require('./services/getYahooMoive.js')
+var youtubeInfo = require('./services/getYoutube.js')
 var bodyParser = require('body-parser');
 // var morgan = require('morgan');
 // var MongoClient = require('mongodb').MongoClient;
@@ -32,11 +33,11 @@ app.get('/movie',async function(req,res){
 app.get('/movieInfo',async function(req,res){
   let datas = await movieInfo.secondSearch(encodeURI(req.query.url));
   //console.log(req.query.url)
+  datas.youtube = await youtubeInfo.firstSearch(encodeURI('https://www.youtube.com/results?search_query='+datas.title_zh+'+預告&sp=CAMSBBABGAFCBAgBEgA%253D'))
+ // console.log(datas)
   res.send( datas)
   return
 })
-
-
 // //增加书籍
 // app.post('/createBook', function(req, res, next) {
 //   var request = req.body;
