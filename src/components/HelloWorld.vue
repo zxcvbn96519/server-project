@@ -155,7 +155,7 @@ export default {
         <td>演   員：` + val.info.info_4 + `</td>
         </tr>
         <tr>
-        <td colspan="2"><!--影片放這--><iframe width="560" height="315" src="https://www.youtube.com/embed/` + this.videoId + `" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe><!--到這--></td>
+        <td style="text-align: center;" colspan="2"><!--影片放這--><iframe width="560" height="315" src="https://www.youtube.com/embed/` + this.videoId + `" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe><!--到這--></td>
         </tr>
         <tr>
         <td colspan="2">
