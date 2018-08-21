@@ -33,8 +33,9 @@ exports.question = async function (q) {
   })
 }
 
-exports.firstSearch = async function (url) {
+exports.firstSearch = async function (query) {
   try {
+    const url = encodeURI('https://www.youtube.com/results?search_query=' + query + '+預告&sp=CAMSBBABGAFCBAgAEgA%253D')
     const body = await getBody(url)
     const $ = cheerio.load(body)
     let datas = {}

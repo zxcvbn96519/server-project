@@ -33,8 +33,9 @@ exports.question = async function (q) {
   })
 }
 
-exports.firstSearch = async function (url) {
+exports.firstSearch = async function (query) {
   try {
+    const url = encodeURI('https://movies.yahoo.com.tw/moviesearch_result.html?keyword=' + query)
     const body = await getBody(url)
     const $ = cheerio.load(body)
     let datas = []
@@ -61,8 +62,9 @@ exports.firstSearch = async function (url) {
   }
 }
 
-exports.secondSearch = async function (url) {
+exports.secondSearch = async function (query) {
   try {
+    const url = encodeURI(query)
     const body = await getBody(url)
     const $ = cheerio.load(body)
     let datas = {}

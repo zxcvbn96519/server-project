@@ -24,16 +24,15 @@ app.listen(8080, function () {
   console.log('server is running at 8080');
 });
 app.get('/movie',async function(req,res){
-  let url = "https://movies.yahoo.com.tw/moviesearch_result.html?keyword=" + req.query.name;
-  let datas = await movieInfo.firstSearch(encodeURI(url));
+  let datas = await movieInfo.firstSearch(req.query.name);
   //console.log(url + " " + datas)
   res.send( datas)
   return
 })
 app.get('/movieInfo',async function(req,res){
-  let datas = await movieInfo.secondSearch(encodeURI(req.query.url));
+  let datas = await movieInfo.secondSearch(req.query.url);
   //console.log(req.query.url)
-  datas.youtube = await youtubeInfo.firstSearch(encodeURI('https://www.youtube.com/results?search_query='+datas.title_zh+'+預告&sp=CAMSBBABGAFCBAgAEgA%253D'))
+  datas.youtube = await youtubeInfo.firstSearch(datas.title_zh)
  // console.log(datas)
   res.send( datas)
   return
